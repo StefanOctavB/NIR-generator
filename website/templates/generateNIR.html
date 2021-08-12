@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Genereaza NIR{% endblock %}
+
+{% block content %}
+<div class="row content">
+    <div class="col-8">
+        <h3 align="center"> Introdu date pentru a generea un NIR nou</h3>
+        <h4 align="left"> 1. Introdu produsele de pe factura</h4>
+        <table class="table table-dark table-striped">
+            <tr class="">
+                {% for header in headings %}
+                <th>{{ header }}</th>
+                {% endfor %}
+            </tr>
+            <tr>
+                <form method='POST'>
+                    <td><input type="text" placeholder="Nume produs" name="nume_produs" required="required" pattern="[A-Za-z0-9\s|,.-\`'~șȘțȚăĂîÎâÂ]{1,100}"></input></td>
+                    <td><input type="text" placeholder="Cod produs" name="cod_produs" required="required" pattern="[A-Za-z0-9\s|,.-\`'~șȘțȚăĂîÎâÂ]{1,100}"></input></td>
+                    <td><input type="number" placeholder="Cantitate" name="cantitate_produs" required="required"></input></td>
+                    <td><input type="number" step="0.001" placeholder="Pret achizitie" name="pret_achizitie_produs" required="required"></input>
+                        <select name="moneda_achizitie" id="moneda_achizitie">
+                            <option value="RON">RON</option>
+                            <option value="USD">USD</option>
+                            <option value="EUR">EUR</option>
+                          </select>
+                    </td>
+                    <td><input type="number" step="0.001" placeholder="Pret vanzare" name="pret_vanzare_produs" required="required"></input>
+                        <select name="moneda_vanzare" id="moneda_vanzare">
+                            <option value="RON">RON</option>
+                            <option value="USD">USD</option>
+                            <option value="EUR">EUR</option>
+                          </select>
+                    </td>
+                    <td class="white-background"><button type="submit" class="btn btn-primary" required="required" name ="btn" value="adauga_produs">+</button></td>
+                </form>
+            </tr>
+                {% for row in data %}
+                <tr>
+                    <td >{{row.nume_produs}}</td>
+                    <td >{{row.cod_produs}}</td>
+                    <td >{{row.cantitate_produs}}</td>
+                    <td >{{row.pret_achizitie_produs}} {{row.moneda_achizitie}} </td>
+                    <td >{{row.pret_vanzare_produs}} {{row.moneda_vanzare}}</td>
+                    <td><button type="button" class="close" id={{row.cod_produs}} onclick="sterge_produs(event.target.id)">&times;</button></td>
+                </tr>
+                {% endfor %}
+        </table>
+        </br>
+        <h4 align="left"> 2. Introdu datele de pe factura</h4>
+        <table class="table table-dark table-striped">
+                    <form method='POST'>
+                        <tr>
+                            <td><input type="text" placeholder="Numele firmei dvs." name="nume_firma" required="required" pattern="[A-Za-z0-9\s|,.-\`'~șȘțȚăĂîÎâÂ]{1,100}"></input></td>
+                            <td><input type="text" placeholder="Nume Furnizor" name="nume_furnizor" required="required" pattern="[A-Za-z0-9\s|,.-\`'~șȘțȚăĂîÎâÂ]{1,100}"></input></td>
+                            <td><input type="text" placeholder="Numar Factura" name="numar_factura" required="required" pattern="[A-Za-z0-9\s|,.-\`'~șȘțȚăĂîÎâÂ]{1,100}"></input></td>
+                            <td><input type="text" placeholder="Numele receptioner marfa" name="nume_membri" required="required" pattern="[A-Za-z0-9\s|,.-\`'~șȘțȚăĂîÎâÂ]{1,100}"></input></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" placeholder="Numele gestionarului" name="nume_gestionar" required="required" pattern="[A-Za-z0-9\s|,.-\`'~șȘțȚăĂîÎâÂ]{1,100}"></input></td>
+                            <td><input type="number" placeholder="Cost transport" step="0.001" name="cost_transport" required="required"></input>
+                                <select name="moneda_transport" id="moneda_transport">
+                                  <option value="RON">RON</option>
+                                  <option value="USD">USD</option>
+                                  <option value="EUR">EUR</option>
+                                </select>
+                            </td>
+                            <td><input type="number" placeholder="Taxe & TVA" step="0.001" name="taxe_tva" required="required"></input>
+                                <select name="moneda_taxe_tva" id="moneda_taxe_tva">
+                                    <option value="RON">RON</option>
+                                    <option value="USD">USD</option>
+                                    <option value="EUR">EUR</option>
+                                  </select>
+                            </td>
+                            <td><input type="date" id="data_factura" name="data_factura">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><button type='submit' class="btn btn-primary" name ="btn" value="genereaza_nir">Genreaza NIR</button></td>
+                        </tr>
+                    </form>
+        </table>
+       
+    </div>
+    <div class="col nir-existent" >  
+        <h3 align="center"> NIR-uri existente </h3>
+        {% if user.nirs%}
+            {% for nir in user.nirs %}
+            <div style="display: flex">
+                <image src="https://2invoice.webradesk.com/knowledgebase/5/xls.png"></image>
+                <p style="margin: auto;
+                padding: 10px;">
+                NIR-{{nir.id}}
+            </p>
+                <a class="btn btn-primary" href="/get-nir/nir-{{nir.id}}.xlsx"> DOWNLOAD</a>
+                <button type="button" class="close"  onclick="sterge_nir({{ nir.id }})">&times;</button>
+            </div>
+            {% endfor %}
+        {% else %}
+        <p class="no-nir-created">Nu ai nici un NIR creat</p>
+        {% endif %}
+    </div>  
+</div>
+{% endblock %}

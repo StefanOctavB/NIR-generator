@@ -1,0 +1,42 @@
+input {
+    width: 100%;
+}
+.carousel-indicators{
+    background-color: grey;
+    transform: translateY(50px);
+   
+}
+.content{
+    margin-top: 10px;
+}
+.nir-existent{
+    border:1px solid rgb(189, 189, 189);
+    border-radius: 20px;
+    margin-right:10px;
+    padding: 10px;
+}
+.no-nir-created{
+    font-size: 22px;
+    text-align: center;
+}
+.close{
+    margin: 10px;
+}
+.login-card {
+    margin-top: 20px;
+}
+@media screen and (min-width: 992px) {
+    .login-card {
+      border:none;
+      width: 30%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+  
+  /* On screens that are 600px wide or less, make the columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 600px) {
+    .login-card {
+      width: 100%;
+    }
+  }

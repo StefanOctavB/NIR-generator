@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content%}
+<div class="container my-4">
+    <p>
+        <strong>Bine ai venit {{user.first_name}}</strong>
+    </p>
+
+ 
+    <div class="col-md-3" style="float:left">
+        <div class="card mb-2">
+            <img class="card-img-top"
+                src="https://2invoice.webradesk.com/knowledgebase/5/1498742212_Creeaza-Nota-de-Receptie-2invoice.png"
+                alt="Card image cap">
+            <div class="card-body">
+                <h4 class="card-title">Genereaza NIR</h4>
+                <p class="card-text">Aici se pot genera Note de Receptie simplu si rapid</p>
+                <a href="/genereaza-nir" class="btn btn-primary">Incepe</a>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
